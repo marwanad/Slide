@@ -159,63 +159,63 @@ import static me.ccrama.redditslide.UserSubscriptions.modOf;
 
 public class MainActivity extends BaseActivity
         implements NetworkStateReceiver.NetworkStateReceiverListener {
-    public static final String EXTRA_PAGE_TO        = "pageTo";
-    public static final String IS_ONLINE            = "online";
+    public static final String EXTRA_PAGE_TO = "pageTo";
+    public static final String IS_ONLINE = "online";
     // Instance state keys
-    static final        String SUBS                 = "subscriptions";
-    static final        String LOGGED_IN            = "loggedIn";
-    static final        String USERNAME             = "username";
-    static final        int    TUTORIAL_RESULT      = 55;
-    static final        int    INBOX_RESULT         = 66;
-    static final        int    RESET_ADAPTER_RESULT = 3;
-    static final        int    SETTINGS_RESULT      = 2;
-    public static Loader  loader;
+    static final String SUBS = "subscriptions";
+    static final String LOGGED_IN = "loggedIn";
+    static final String USERNAME = "username";
+    static final int TUTORIAL_RESULT = 55;
+    static final int INBOX_RESULT = 66;
+    static final int RESET_ADAPTER_RESULT = 3;
+    static final int SETTINGS_RESULT = 2;
+    public static Loader loader;
     public static boolean datasetChanged;
     public static Map<String, String> multiNameToSubsMap = new HashMap<>();
     public static boolean checkedPopups;
-    public static String  shouldLoad;
+    public static String shouldLoad;
     public static boolean isRestart;
-    public static int     restartPage;
-    public final  long ANIMATE_DURATION        = 250; //duration of animations
+    public static int restartPage;
+    public final long ANIMATE_DURATION = 250; //duration of animations
     private final long ANIMATE_DURATION_OFFSET = 45; //offset for smoothing out the exit animations
-    public boolean                  singleMode;
-    public ToggleSwipeViewPager     pager;
+    public boolean singleMode;
+    public ToggleSwipeViewPager pager;
     public CaseInsensitiveArrayList usedArray;
-    public DrawerLayout             drawerLayout;
-    public View                     hea;
-    public EditText                 drawerSearch;
-    public View                     header;
-    public String                   subToDo;
-    public OverviewPagerAdapter     adapter;
-    public int     toGoto = 0;
-    public boolean first  = true;
+    public DrawerLayout drawerLayout;
+    public View hea;
+    public EditText drawerSearch;
+    public View header;
+    public String subToDo;
+    public OverviewPagerAdapter adapter;
+    public int toGoto = 0;
+    public boolean first = true;
     public TabLayout mTabLayout;
-    public ListView  drawerSubList;
-    public String    selectedSub; //currently selected subreddit
-    public Runnable  doImage;
-    public Intent    data;
+    public ListView drawerSubList;
+    public String selectedSub; //currently selected subreddit
+    public Runnable doImage;
+    public Intent data;
     public boolean commentPager = false;
-    public Runnable   runAfterLoad;
-    public boolean    canSubmit;
+    public Runnable runAfterLoad;
+    public boolean canSubmit;
     //if the view mode is set to Subreddit Tabs, save the title ("Slide" or "Slide (debug)")
-    public String     tabViewModeTitle;
-    public int        currentComment;
+    public String tabViewModeTitle;
+    public int currentComment;
     public Submission openingComments;
     public int toOpenComments = -1;
     public boolean inNightMode;
-    boolean                     changed;
-    String                      term;
-    View                        headerMain;
-    MaterialDialog              d;
+    boolean changed;
+    String term;
+    View headerMain;
+    MaterialDialog d;
     AsyncTask<View, Void, View> currentFlair;
-    SpoilerRobotoTextView       sidebarBody;
-    CommentOverflow             sidebarOverflow;
-    View                        accountsArea;
-    SideArrayAdapter            sideArrayAdapter;
-    Menu                        menu;
-    AsyncTask                   caching;
-    boolean                     currentlySubbed;
-    int                         back;
+    SpoilerRobotoTextView sidebarBody;
+    CommentOverflow sidebarOverflow;
+    View accountsArea;
+    SideArrayAdapter sideArrayAdapter;
+    Menu menu;
+    AsyncTask caching;
+    boolean currentlySubbed;
+    int back;
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
     private int headerHeight; //height of the header
     public int reloadItemNumber = -2;
@@ -376,7 +376,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[],
-            int[] grantResults) {
+                                           int[] grantResults) {
         switch (requestCode) {
             case 1: {
                 // If request is cancelled, the result arrays are empty.
@@ -398,7 +398,7 @@ public class MainActivity extends BaseActivity
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     ActivityCompat.requestPermissions(
                                                             MainActivity.this, new String[]{
                                                                     Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -410,7 +410,7 @@ public class MainActivity extends BaseActivity
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog,
-                                                        int which) {
+                                                                    int which) {
                                                     dialog.dismiss();
                                                 }
                                             })
@@ -763,7 +763,7 @@ public class MainActivity extends BaseActivity
                                         new MaterialDialog.InputCallback() {
                                             @Override
                                             public void onInput(MaterialDialog materialDialog,
-                                                    CharSequence charSequence) {
+                                                                CharSequence charSequence) {
                                                 term = charSequence.toString();
                                             }
                                         });
@@ -781,7 +781,7 @@ public class MainActivity extends BaseActivity
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog materialDialog,
-                                        @NonNull DialogAction dialogAction) {
+                                                    @NonNull DialogAction dialogAction) {
                                     Intent i = new Intent(MainActivity.this, Search.class);
                                     i.putExtra(Search.EXTRA_TERM, term);
                                     i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
@@ -794,7 +794,7 @@ public class MainActivity extends BaseActivity
                             .onNeutral(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog materialDialog,
-                                        @NonNull DialogAction dialogAction) {
+                                                    @NonNull DialogAction dialogAction) {
                                     Intent i = new Intent(MainActivity.this, Search.class);
                                     i.putExtra(Search.EXTRA_TERM, term);
                                     startActivity(i);
@@ -805,7 +805,7 @@ public class MainActivity extends BaseActivity
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog materialDialog,
-                                        @NonNull DialogAction dialogAction) {
+                                                    @NonNull DialogAction dialogAction) {
                                     Intent i = new Intent(MainActivity.this, Search.class);
                                     i.putExtra(Search.EXTRA_TERM, term);
                                     startActivity(i);
@@ -854,7 +854,7 @@ public class MainActivity extends BaseActivity
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
@@ -869,7 +869,7 @@ public class MainActivity extends BaseActivity
                             .setNegativeButton(R.string.btn_no_danks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             dialog.dismiss();
                                         }
                                     });
@@ -927,7 +927,7 @@ public class MainActivity extends BaseActivity
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             try {
                                                 startActivity(new Intent(Intent.ACTION_VIEW,
                                                         Uri.parse(
@@ -942,7 +942,7 @@ public class MainActivity extends BaseActivity
                             .setNegativeButton(R.string.btn_no_danks,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
-                                                int whichButton) {
+                                                            int whichButton) {
                                             dialog.dismiss();
                                         }
                                     });
@@ -1038,7 +1038,8 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void run() {
                         runAfterLoad = null;
-                        if (Authentication.isLoggedIn) new AsyncNotificationBadge().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        if (Authentication.isLoggedIn)
+                            new AsyncNotificationBadge().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         if (!Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, "").isEmpty()) {
                             new CheckForMail.AsyncGetSubs(MainActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         }
@@ -1336,7 +1337,7 @@ public class MainActivity extends BaseActivity
         networkStateReceiver.addListener(this);
         try {
             this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
-        } catch(Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -1455,7 +1456,7 @@ public class MainActivity extends BaseActivity
      * @param drawerLayout           drawerLayout to adjust the swipe edge
      */
     public static void setDrawerEdge(Activity activity, final float displayWidthPercentage,
-            DrawerLayout drawerLayout) {
+                                     DrawerLayout drawerLayout) {
         try {
             Field mDragger =
                     drawerLayout.getClass().getSuperclass().getDeclaredField("mLeftDragger");
@@ -1508,7 +1509,7 @@ public class MainActivity extends BaseActivity
                                     new MaterialDialog.InputCallback() {
                                         @Override
                                         public void onInput(@NonNull MaterialDialog dialog,
-                                                CharSequence input) {
+                                                            CharSequence input) {
                                             final EditText editText = dialog.getInputEditText();
                                             EditTextValidator.validateUsername(editText);
                                             if (input.length() >= 3 && input.length() <= 20) {
@@ -1521,7 +1522,7 @@ public class MainActivity extends BaseActivity
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog,
-                                        @NonNull DialogAction which) {
+                                                    @NonNull DialogAction which) {
                                     if (runAfterLoad == null) {
                                         Intent inte = new Intent(MainActivity.this,
                                                 MultiredditOverview.class);
@@ -1663,7 +1664,7 @@ public class MainActivity extends BaseActivity
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog2,
-                                                        int which2) {
+                                                                    int which2) {
                                                     Set<String> accounts2 =
                                                             Authentication.authentication.getStringSet(
                                                                     "accounts",
@@ -1884,7 +1885,7 @@ public class MainActivity extends BaseActivity
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog2,
-                                                        int which2) {
+                                                                    int which2) {
                                                     Set<String> accounts2 =
                                                             Authentication.authentication.getStringSet(
                                                                     "accounts",
@@ -2015,7 +2016,7 @@ public class MainActivity extends BaseActivity
                                     new MaterialDialog.InputCallback() {
                                         @Override
                                         public void onInput(@NonNull MaterialDialog dialog,
-                                                CharSequence input) {
+                                                            CharSequence input) {
                                             final EditText editText = dialog.getInputEditText();
                                             EditTextValidator.validateUsername(editText);
                                             if (input.length() >= 3 && input.length() <= 20) {
@@ -2028,7 +2029,7 @@ public class MainActivity extends BaseActivity
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog,
-                                        @NonNull DialogAction which) {
+                                                    @NonNull DialogAction which) {
                                     if (runAfterLoad == null) {
                                         Intent inte = new Intent(MainActivity.this,
                                                 MultiredditOverview.class);
@@ -2080,7 +2081,7 @@ public class MainActivity extends BaseActivity
                                 .setPositiveButton(R.string.btn_yes_exclaim,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
+                                                                int whichButton) {
                                                 try {
                                                     startActivity(new Intent(Intent.ACTION_VIEW,
                                                             Uri.parse(
@@ -2095,7 +2096,7 @@ public class MainActivity extends BaseActivity
                                 .setNegativeButton(R.string.btn_no_danks,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
+                                                                int whichButton) {
                                                 dialog.dismiss();
                                             }
                                         })
@@ -2112,7 +2113,7 @@ public class MainActivity extends BaseActivity
                                     new MaterialDialog.InputCallback() {
                                         @Override
                                         public void onInput(@NonNull MaterialDialog dialog,
-                                                CharSequence input) {
+                                                            CharSequence input) {
                                             final EditText editText = dialog.getInputEditText();
                                             EditTextValidator.validateUsername(editText);
                                             if (input.length() >= 3 && input.length() <= 20) {
@@ -2125,7 +2126,7 @@ public class MainActivity extends BaseActivity
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog,
-                                        @NonNull DialogAction which) {
+                                                    @NonNull DialogAction which) {
                                     Intent inte = new Intent(MainActivity.this, Profile.class);
                                     //noinspection ConstantConditions
                                     inte.putExtra(Profile.EXTRA_PROFILE,
@@ -2260,8 +2261,8 @@ public class MainActivity extends BaseActivity
                                             .itemsCallback(new MaterialDialog.ListCallback() {
                                                 @Override
                                                 public void onSelection(MaterialDialog dialog,
-                                                        View itemView, int which,
-                                                        CharSequence text) {
+                                                                        View itemView, int which,
+                                                                        CharSequence text) {
                                                     Intent i = new Intent(MainActivity.this,
                                                             Profile.class);
                                                     i.putExtra(Profile.EXTRA_PROFILE,
@@ -2388,8 +2389,8 @@ public class MainActivity extends BaseActivity
                                         .itemsCallback(new MaterialDialog.ListCallback() {
                                             @Override
                                             public void onSelection(MaterialDialog dialog,
-                                                    View itemView, final int which,
-                                                    CharSequence text) {
+                                                                    View itemView, final int which,
+                                                                    CharSequence text) {
                                                 new AsyncTask<Void, Void, Void>() {
                                                     @Override
                                                     protected Void doInBackground(Void... params) {
@@ -2499,7 +2500,7 @@ public class MainActivity extends BaseActivity
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
                                                             new MaterialDialog.Builder(
                                                                     MainActivity.this).title(
                                                                     R.string.sub_post_notifs_threshold)
@@ -2545,7 +2546,7 @@ public class MainActivity extends BaseActivity
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog,
-                                                                int which) {
+                                                                            int which) {
                                                             notifyStateCheckBox.setChecked(false);
                                                         }
                                                     })
@@ -2949,7 +2950,7 @@ public class MainActivity extends BaseActivity
                                     .itemsCallback(new MaterialDialog.ListCallback() {
                                         @Override
                                         public void onSelection(MaterialDialog dialog,
-                                                View itemView, int which, CharSequence text) {
+                                                                View itemView, int which, CharSequence text) {
                                             Intent i = new Intent(MainActivity.this, Profile.class);
                                             i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
                                             startActivity(i);
@@ -2959,7 +2960,7 @@ public class MainActivity extends BaseActivity
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
                                         public void onClick(@NonNull MaterialDialog dialog,
-                                                @NonNull DialogAction which) {
+                                                            @NonNull DialogAction which) {
                                             Intent i = new Intent(MainActivity.this,
                                                     SendMessage.class);
                                             i.putExtra(SendMessage.EXTRA_NAME, "/r/" + subreddit);
@@ -3028,8 +3029,8 @@ public class MainActivity extends BaseActivity
                                             .itemsCallback(new MaterialDialog.ListCallback() {
                                                 @Override
                                                 public void onSelection(MaterialDialog dialog,
-                                                        View itemView, int which,
-                                                        CharSequence text) {
+                                                                        View itemView, int which,
+                                                                        CharSequence text) {
                                                     final FlairTemplate t = flairs.get(which);
                                                     if (t.isTextEditable()) {
                                                         new MaterialDialog.Builder(
@@ -3268,8 +3269,8 @@ public class MainActivity extends BaseActivity
      * @param CLOSE_BUTTON           button that clears the search and closes the search UI
      */
     public void enterAnimationsForToolbarSearch(final long ANIMATION_DURATION,
-            final CardView SUGGESTIONS_BACKGROUND, final AutoCompleteTextView GO_TO_SUB_FIELD,
-            final ImageView CLOSE_BUTTON) {
+                                                final CardView SUGGESTIONS_BACKGROUND, final AutoCompleteTextView GO_TO_SUB_FIELD,
+                                                final ImageView CLOSE_BUTTON) {
         SUGGESTIONS_BACKGROUND.animate()
                 .translationY(headerHeight)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
@@ -3298,8 +3299,8 @@ public class MainActivity extends BaseActivity
      * @param CLOSE_BUTTON           button that clears the search and closes the search UI
      */
     public void exitAnimationsForToolbarSearch(final long ANIMATION_DURATION,
-            final CardView SUGGESTIONS_BACKGROUND, final AutoCompleteTextView GO_TO_SUB_FIELD,
-            final ImageView CLOSE_BUTTON) {
+                                               final CardView SUGGESTIONS_BACKGROUND, final AutoCompleteTextView GO_TO_SUB_FIELD,
+                                               final ImageView CLOSE_BUTTON) {
         SUGGESTIONS_BACKGROUND.animate()
                 .translationY(-SUGGESTIONS_BACKGROUND.getHeight())
                 .setInterpolator(new AccelerateDecelerateInterpolator())
@@ -3633,7 +3634,7 @@ public class MainActivity extends BaseActivity
                         new boolean[]{false}, new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which,
-                                    boolean isChecked) {
+                                                boolean isChecked) {
                                 chosen[which] = isChecked;
                             }
                         })
@@ -3912,7 +3913,7 @@ public class MainActivity extends BaseActivity
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog,
-                                @NonNull DialogAction which) {
+                                            @NonNull DialogAction which) {
                             Reddit.appRestart.edit().remove("forceoffline").commit();
                             Reddit.forceRestart(MainActivity.this);
                         }
@@ -4052,7 +4053,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView,
-            CommentOverflow commentOverflow) {
+                          CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -4188,7 +4189,7 @@ public class MainActivity extends BaseActivity
                                         new TextView.OnEditorActionListener() {
                                             @Override
                                             public boolean onEditorAction(TextView arg0, int arg1,
-                                                    KeyEvent arg2) {
+                                                                          KeyEvent arg2) {
                                                 if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
                                                     //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
                                                     if (sideArrayAdapter.fitems == null
@@ -4275,13 +4276,13 @@ public class MainActivity extends BaseActivity
                                 GO_TO_SUB_FIELD.addTextChangedListener(new TextWatcher() {
                                     @Override
                                     public void beforeTextChanged(CharSequence charSequence, int i,
-                                            int i2, int i3) {
+                                                                  int i2, int i3) {
 
                                     }
 
                                     @Override
                                     public void onTextChanged(CharSequence charSequence, int i,
-                                            int i2, int i3) {
+                                                              int i2, int i3) {
 
                                     }
 
@@ -4487,7 +4488,7 @@ public class MainActivity extends BaseActivity
         int count;
 
         boolean restart;
-        int     modCount;
+        int modCount;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -4632,7 +4633,7 @@ public class MainActivity extends BaseActivity
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
-                        int positionOffsetPixels) {
+                                           int positionOffsetPixels) {
                     if (positionOffset == 0) {
                         header.animate()
                                 .translationY(0)
@@ -4815,7 +4816,7 @@ public class MainActivity extends BaseActivity
 
     public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
         public int size = usedArray.size();
-        public  Fragment    storedFragment;
+        public Fragment storedFragment;
         private CommentPage mCurrentComments;
 
         public OverviewPagerAdapterComment(FragmentManager fm) {
@@ -4824,7 +4825,7 @@ public class MainActivity extends BaseActivity
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
-                        int positionOffsetPixels) {
+                                           int positionOffsetPixels) {
                     if (positionOffset == 0) {
                         if (position != toOpenComments) {
                             pager.setSwipeLeftOnly(true);
@@ -4851,7 +4852,7 @@ public class MainActivity extends BaseActivity
                             setRecentBar(openingComments.getSubredditName().toLowerCase());
                         }
                     }
-                    }
+                }
 
                 @Override
                 public void onPageSelected(final int position) {

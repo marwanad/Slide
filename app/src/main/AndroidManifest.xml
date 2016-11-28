@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
-            android:name=".Reddit"
+            android:name=".Slide"
             android:allowBackup="true"
             android:alwaysRetainTaskState="true"
             android:fullBackupContent="true"

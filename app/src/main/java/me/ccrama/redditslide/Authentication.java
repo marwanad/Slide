@@ -32,26 +32,26 @@ import okhttp3.Protocol;
  * Created by ccrama on 3/30/2015.
  */
 public class Authentication {
-    private static final String CLIENT_ID    = "KI2Nl9A_ouG9Qw";
+    private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     private static final String REDIRECT_URL = "http://www.ccrama.me";
-    public static boolean           isLoggedIn;
-    public static RedditClient      reddit;
-    public static LoggedInAccount   me;
-    public static boolean           mod;
-    public static String            name;
+    public static boolean isLoggedIn;
+    public static RedditClient reddit;
+    public static LoggedInAccount me;
+    public static boolean mod;
+    public static String name;
     public static SharedPreferences authentication;
-    public static String            refresh;
+    public static String refresh;
 
-    public        boolean hasDone;
+    public boolean hasDone;
     public static boolean didOnline;
     private static OkHttpAdapter httpAdapter;
 
-    public static void resetAdapter(){
+    public static void resetAdapter() {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                if(httpAdapter != null && httpAdapter.getNativeClient() != null)
-                httpAdapter.getNativeClient().connectionPool().evictAll();
+                if (httpAdapter != null && httpAdapter.getNativeClient() != null)
+                    httpAdapter.getNativeClient().connectionPool().evictAll();
                 return null;
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -62,7 +62,7 @@ public class Authentication {
 
         if (NetworkUtil.isConnected(context)) {
             hasDone = true;
-            httpAdapter = new OkHttpAdapter(Reddit.client, Protocol.SPDY_3 );
+            httpAdapter = new OkHttpAdapter(Reddit.client, Protocol.SPDY_3);
             isLoggedIn = false;
             reddit = new RedditClient(
                     UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME), httpAdapter);
